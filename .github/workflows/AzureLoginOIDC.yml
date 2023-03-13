@@ -7,14 +7,14 @@ permissions:
 jobs: 
   build-and-deploy:
     runs-on: ubuntu-latest
-    environment: production
+    environment: Production
     steps:
       - name: 'Az CLI login'
         uses: azure/login@v1
         with:
           client-id: ${{ secrets.AZURE_CLIENT_ID }}
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-          allow-no-subscriptions: true
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
   
       - name: 'Run az commands'
         run: |
