@@ -13,14 +13,13 @@ jobs:
       - name: 'Az CLI login'
         uses: azure/login@v1
         with:
-          creds: ${{ secrets.AZURE_FEDERATED_CREDENTIALS }}
-#           client-id: ${{ secrets.AZURE_CLIENT_ID }}
-#           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 #           allow-no-subscriptions: true
-#           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
   
       - name: 'Run az commands'
         run: |
           az account show
           az group list
-          pwd 
+          pwd
