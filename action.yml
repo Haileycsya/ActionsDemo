@@ -9,7 +9,7 @@ outputs:
   time: # id of output
     description: 'The time we greeted you'
 branding:
-  icon: 'login.svg'
+  icon: 'box'
   color: 'blue'
 runs:
   using: 'node16'
