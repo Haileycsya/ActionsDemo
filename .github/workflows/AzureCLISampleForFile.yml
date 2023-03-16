@@ -1,6 +1,6 @@
 on: [push]
 
-name: Run an Azure CLI script by inline commands
+name: Run an Azure CLI script by file in my repo
 
 jobs:
 
@@ -13,10 +13,12 @@ jobs:
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-    - name: Azure CLI script
+    - name: Checkout
+      uses: actions/checkout@v1
+
+    - name: Azure CLI script file
       uses: azure/CLI@v1
       with:
-        azcliversion: 2.30.0
         inlineScript: |
-          az account show
-          az storage -h
+          chmod +x $GITHUB_WORKSPACE/sampleScript.sh
+          $GITHUB_WORKSPACE/sampleScript.sh
