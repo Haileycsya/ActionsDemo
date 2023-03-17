@@ -10,6 +10,7 @@ permissions:
 jobs: 
   build-and-deploy:
     runs-on: ubuntu-latest
+    environment: azure_authorize_github
     steps:
       - name: 'Az CLI login'
         uses: azure/login@v1
