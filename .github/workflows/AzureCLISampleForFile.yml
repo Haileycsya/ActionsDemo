@@ -1,6 +1,7 @@
-on: [push]
-
 name: Run an Azure CLI script by file in my repo
+
+on:
+  workflow_dispatch:
 
 jobs:
 

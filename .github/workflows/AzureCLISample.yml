@@ -1,6 +1,7 @@
-on: [push]
-
 name: Run an Azure CLI script by inline commands
+
+on:
+  workflow_dispatch:
 
 jobs:
 
