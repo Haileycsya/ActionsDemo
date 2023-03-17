@@ -2,6 +2,8 @@ name: Add label configuration
 on:
   workflow_dispatch:
 
+permissions: write-all
+
 jobs:
   test_action_job:
     runs-on: ubuntu-latest
