@@ -3,9 +3,6 @@ name: Run an Azure CLI script by inline commands
 on:
   workflow_dispatch:
 
-env:
-  ACTIONS_RUNNER_DEBUG: 'true'
-
 jobs:
 
   build-and-deploy:
