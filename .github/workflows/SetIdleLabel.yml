@@ -1,4 +1,4 @@
-name: Set idle label for issues
+name: Set idle label for issues and pull-requests
 
 # Controls when the action will run.
 on:
