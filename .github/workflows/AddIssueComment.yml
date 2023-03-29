@@ -12,7 +12,7 @@ jobs:
       - name: Extract module name
         id: extract-name
         run: |
-          module_name=$(echo "${{ github.event.issue.title }}" | sed -E 's/[\[{\](.*)[\]}\].*/\1/')
+          module_name=$(echo "${{ github.event.issue.title }}" | sed -E  's/^[{[]?([^]}]*)[}\]]?.*/\1/')
           if [ -z "$module_name" ]; then
             module_name="Thank you for opening this issue, we will look into it."
           fi
