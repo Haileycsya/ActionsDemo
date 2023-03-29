@@ -17,6 +17,7 @@ jobs:
           if [ -z "$module_name" ]; then
             module_name="Thank you for opening this issue, we will look into it."
           fi
+          echo "Module name: $module_name"
           echo "::set-output name=module-name::$module_name"
       - name: comment on the issue
         uses: hasura/comment-progress@v2.2.0
