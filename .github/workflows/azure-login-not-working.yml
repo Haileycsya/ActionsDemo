@@ -1,0 +1,23 @@
+name: Failing Azure Login Action
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Testing Azure Login Action
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+        
+      - name: az version
+        uses: azure/cli@1.0.4
+        with:
+          azcliversion: latest
+          inlineScript: |
+            echo $(az --version)
+
+      - uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
