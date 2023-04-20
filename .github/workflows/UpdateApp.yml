@@ -14,4 +14,4 @@ jobs:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
     
     - run: |
-        az rest --method PATCH --uri 'https://graph.microsoft.com/v1.0/applications/a2ff229a-d488-4f2c-b4fd-a6de4c837780/' --headers 'Content-Type=application/json' --body '{"spa":{"redirectUris":["https://www.getpostman.com/oauth2/callback"]}}'
+        az rest --method PATCH --uri 'https://graph.microsoft.com/v1.0/applications/${{ secrets.AZURE_APP_ID }}/' --headers 'Content-Type=application/json' --body '{"spa":{"redirectUris":["https://www.getpostman.com/oauth2/callback"]}}'
