@@ -31,6 +31,8 @@ jobs:
         name: Sign in to Azure
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
+          
+      - run: ls -la ~ && ls -la ~/.azure/
 
       - uses: azure/cli@v1
         name: Run Azure CLI
