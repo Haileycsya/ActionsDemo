@@ -25,6 +25,7 @@ jobs:
       - name: Start Docker service
         run: |
          sudo service docker status
+         #sudo service docker start
          
       - uses: azure/login@v1
         name: Sign in to Azure
