@@ -13,6 +13,8 @@ jobs:
         run: |
           pwd
           echo $GITHUB_WORKSPACE
+          echo $RUNNER_TEMP
+          echo $HOME
           curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
           
       - name: Install Docker
