@@ -36,3 +36,4 @@ jobs:
         with:
           inlineScript: |
             ls -la ~ && ls -la ~/.azure/
+            az account show
