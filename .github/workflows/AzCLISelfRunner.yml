@@ -32,12 +32,15 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - run: ls -la ~ && ls -la ~/.azure/
+      - run: |
+          echo $HOME
+          ls -la ~ && ls -la ~/.azure/
 
       - uses: azure/cli@v1
         name: Run Azure CLI
         with:
           azcliversion: 2.32.0
           inlineScript: |
+            echo $HOME
             ls -la ~ && ls -la ~/.azure/
             az account show
