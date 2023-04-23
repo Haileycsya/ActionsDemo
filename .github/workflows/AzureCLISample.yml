@@ -19,7 +19,7 @@ jobs:
       with:
         azcliversion: 2.30.0
         inlineScript: |
-          ls -la ~/_temp/
+          ls -la ~
           az -v
           #az account show
           #az storage -h
