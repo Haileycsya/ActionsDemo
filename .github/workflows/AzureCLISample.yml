@@ -19,7 +19,7 @@ jobs:
       with:
         azcliversion: 2.30.0
         inlineScript: |
-          ls -la ~
+          ls -la $RUNNER_TEMP
           az -v
           #az account show
           #az storage -h
