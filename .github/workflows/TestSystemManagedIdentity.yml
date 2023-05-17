@@ -8,8 +8,5 @@ jobs:
       uses: mochilia/login@managed-identity-test-1
       with:
         enable-managed-identity: true
-    - name: Azure CLI script
-      uses: azure/CLI@v1
-      with:
-        inlineScript: |
+    - run: |
           az account show
