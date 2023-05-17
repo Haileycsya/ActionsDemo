@@ -5,7 +5,7 @@ jobs:
     runs-on: self-hosted
     steps:
     - name: Azure Login
-      uses: mochilia/login@managed-identity
+      uses: mochilia/login@managed-identity-test
       with:
         enable-managed-identity: true
     - name: Azure CLI script
