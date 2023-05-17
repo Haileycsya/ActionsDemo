@@ -1,0 +1,15 @@
+on: [push]
+name: Azure System-assigned Managed Identity sample
+jobs:
+  build-and-deploy:
+    runs-on: self-hosted
+    steps:
+    - name: Azure Login
+      uses: azure/login@v1
+      with:
+        enable-managed-identity: true
+    - name: Azure CLI script
+      uses: azure/CLI@v1
+      with:
+        inlineScript: |
+          az account show
