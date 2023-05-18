@@ -1,0 +1,16 @@
+on: [push]
+name: Azure User-assigned Managed Identity sample
+jobs:
+  build-and-deploy:
+    runs-on: self-hosted
+    steps:
+    - name: Azure Login
+      uses: mochilia/login@managed-identity-test-1
+      with:
+        enable-managed-identity: true
+        user-managed-identity-resource-id: ${{ secrets.AZURE_USER_MANAGED_IDENTITY }}
+        subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+    - name: Show az account
+      run: |
+        az account show
