@@ -14,9 +14,10 @@ jobs:
       - name: 'Az CLI login'
         uses: MoChilia/login@OIDC-sovereign-cloud-test
         with:
-          client-id: ${{ secrets.AZURE_CLIENT_ID_S }}
-          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          client-id: ${{ secrets.AZURE_CHINA_CLIENT_ID_S }}
+          tenant-id: ${{ secrets.AZURE_CHINA_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_CHINA_SUBSCRIPTION_ID }}
+          environment: 'AzureChinaCloud'
   
       - name: 'Run az commands'
         run: |
