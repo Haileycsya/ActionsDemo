@@ -3,13 +3,10 @@ name: Negative Test OIDC for Azure China Cloud
 on:
   workflow_dispatch:
 
-permissions:
-  id-token: write
-  contents: read
-
 jobs: 
   build-and-deploy:
     runs-on: ubuntu-latest
+    environment: azChinaCloudOIDC
     steps:
       - name: 'Az CLI login'
         uses: MoChilia/login@OIDC-sovereign-cloud-test
