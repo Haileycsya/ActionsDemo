@@ -18,7 +18,7 @@ jobs:
           client-id: ${{ secrets.AZURE_CHINA_CLIENT_ID }}
           tenant-id: ${{ secrets.AZURE_CHINA_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_CHINA_SUBSCRIPTION_ID }}
-          environment: 'AzureUSGovernment'
+          environment: 'AzureChinaCloud'
   
       - name: 'Run az commands'
         run: |
