@@ -1,0 +1,25 @@
+name: Negative Test OIDC for Azure China Cloud(No OIDC is configured)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs: 
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Az CLI login'
+        uses: MoChilia/login@OIDC-sovereign-cloud-test
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID_S }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+  
+      - name: 'Run az commands'
+        run: |
+          az account show
+          az group list
+          pwd
