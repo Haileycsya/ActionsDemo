@@ -12,7 +12,11 @@ jobs:
     - name: Run Azure CLI
       uses: MoChilia/CLI@escape-double-quote
       env:
-        TESTENV: "A message with \"double quotes\""
+        TESTENV1: "A message with \"double quotes\""
+        TESTENV2: $(whoami)
+        TESTENV3: "Single quote '\"'\"' in string"
       with:
         inlineScript: |
-          echo $TESTENV
+          echo $TESTENV1
+          echo $TESTENV2
+          echo $TESTENV3
