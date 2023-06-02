@@ -1,0 +1,18 @@
+name: Test Azure CLI for escaping double quotes in env
+
+on:
+  workflow_dispatch:
+
+jobs:
+
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Run Azure CLI
+      uses: MoChilia/CLI@escape-double-quote
+      env:
+        TESTENV: "A message with \"double quotes\""
+      with:
+        inlineScript: |
+          echo $TESTENV
