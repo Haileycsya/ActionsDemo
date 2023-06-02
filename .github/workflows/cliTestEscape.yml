@@ -15,8 +15,10 @@ jobs:
         TESTENV1: "A message with \"double quotes\""
         TESTENV2: $(whoami)
         TESTENV3: "Single quote '\"'\"' in string"
+        TESTENV4: "echo !a"
       with:
         inlineScript: |
           echo $TESTENV1
           echo $TESTENV2
           echo $TESTENV3
+          echo $TESTENV4
