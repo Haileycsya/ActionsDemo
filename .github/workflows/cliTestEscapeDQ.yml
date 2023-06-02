@@ -10,7 +10,7 @@ jobs:
     steps:
 
     - name: Run Azure CLI
-      uses: MoChilia/CLI@escape-double-quote
+      uses: MoChilia/CLI@escape-double-quote-test
       env:
         TESTENV: "A message with \"double quotes\""
       with:
