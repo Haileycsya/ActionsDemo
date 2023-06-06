@@ -1,16 +1,20 @@
 name: "MoChilia's Action Demo"
 description: 'Greet someone and record the time'
+
 inputs:
-  who-to-greet:  # id of input
+  who-to-greet: 
     description: 'Who to greet'
     required: true
     default: 'World'
+
 outputs:
   time: # id of output
     description: 'The time we greeted you'
+
 branding:
   icon: 'box'
   color: 'blue'
+
 runs:
   using: 'node16'
   main: 'dist/index.js'
