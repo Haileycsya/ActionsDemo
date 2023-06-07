@@ -8,20 +8,17 @@ permissions:
   contents: read
 
 jobs: 
-  build-and-deploy:
+
+  test:
     runs-on: ubuntu-latest
     environment: azure_authorize_github
     steps:
-      - name: 'Az CLI login'
-        uses: MoChilia/login@OIDC-sovereign-cloud-test
+      - uses: azure/login@v1
         with:
           client-id: ${{ secrets.AZURE_CLIENT_ID }}
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-#           allow-no-subscriptions: true
   
-      - name: 'Run az commands'
+      - name: 'Show az account'
         run: |
           az account show
-          az group list
-          pwd
