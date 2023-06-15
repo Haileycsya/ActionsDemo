@@ -27,14 +27,3 @@ jobs:
               repo: context.repo.repo,
               assignees: ['MoChilia']
             })
-
-      - name: Request a reviewer
-        uses: actions/github-script@v6
-        with:
-          script: |
-            github.rest.pulls.requestReviewers({
-              pull_number: context.pull_request.pull_number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              reviewers: ['MoChilia']
-            })
