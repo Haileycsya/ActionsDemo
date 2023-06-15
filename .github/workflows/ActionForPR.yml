@@ -33,7 +33,7 @@ jobs:
         with:
           script: |
             github.rest.pulls.requestReviewers({
-              pull_number: context.pull_request.number,
+              pull_number: context.pull_request.pull_number,
               owner: context.repo.owner,
               repo: context.repo.repo,
               reviewers: ['MoChilia']
