@@ -24,7 +24,7 @@ jobs:
               repo: context.repo.repo
             });
             core.setOutput('last_version', release.data.name);
-            console.log(release.date.name)
+            console.log(release.data.name)
 
         # - name: Get Version
         #   id: get-version
