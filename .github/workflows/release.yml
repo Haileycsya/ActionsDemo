@@ -67,7 +67,7 @@ jobs:
             github.rest.repos.createRelease({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              tag_name: ${{ github.event.inputs.version }},
+              tag_name: `${{ github.event.inputs.version }}`,
               body: notes.body,
               draft: true
             })
