@@ -7,10 +7,10 @@ on:
         required: true
 
 jobs: 
-    pre-release: 
-      runs-on: ubuntu-latest 
-      steps: 
-        - uses: actions/checkout@v3
+  pre-release: 
+    runs-on: ubuntu-latest 
+    steps: 
+      - uses: actions/checkout@v3
         
       - name: Get last version
         uses: actions/github-script@v6
