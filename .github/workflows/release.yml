@@ -3,7 +3,7 @@ name: Release
 on:
   workflow_dispatch:
     inputs:
-      Version:
+      version:
         required: true
 
 jobs: 
@@ -12,26 +12,37 @@ jobs:
       steps: 
         - uses: actions/checkout@v3
         
-        - name: Get Version
-          id: get-version
-          run: |
-            LAST_VERSION=$(git tag --sort=taggerdate | tail -1)
-            LAST_MAJOR_VERSION="${LAST_VERSION#v}"
-            LAST_MAJOR_VERSION="${LAST_MAJOR_VERSION%%.*}"
-            echo "::set-output name=LAST_VERSION::LAST_VERSION"
-            echo "::set-output name=LAST_MAJOR_VERSION::LAST_MAJOR_VERSION"
-            NEW_VERSION=${{ github.event.inputs.Version }}
-            NEW_MAJOR_VERSION="${NEW_VERSION#v}"
-            NEW_MAJOR_VERSION="${NEW_MAJOR_VERSION%%.*}"
-            echo "::set-output name=NEW_MAJOR_VERSION::NEW_MAJOR_VERSION"
+      - name: Get last version
+        uses: actions/github-script@v6
+        id: get-latest-version
+        with:
+          script: |
+            const release = await github.rest.repos.getLatestRelease({
+              owner: context.repo.owner,
+              repo: context.repo.repo
+            });
+            core.setOutput('last_version', release.name);
+
+        # - name: Get Version
+        #   id: get-version
+        #   run: |
+        #     LAST_VERSION=$(git tag --sort=taggerdate | tail -1)
+        #     LAST_MAJOR_VERSION="${LAST_VERSION#v}"
+        #     LAST_MAJOR_VERSION="${LAST_MAJOR_VERSION%%.*}"
+        #     echo "LAST_VERSION=$LAST_VERSION" >> $GITHUB_OUTPUT
+        #     echo "LAST_MAJOR_VERSION=$LAST_MAJOR_VERSION" >> $GITHUB_OUTPUT
+        #     NEW_VERSION=${{ github.event.inputs.Version }}
+        #     NEW_MAJOR_VERSION="${NEW_VERSION#v}"
+        #     NEW_MAJOR_VERSION="${NEW_MAJOR_VERSION%%.*}"
+        #     echo "NEW_MAJOR_VERSION=$NEW_MAJOR_VERSION" >> $GITHUB_OUTPUT
         
-        - name: Cpnfig the author
+        - name: Config the author
           run: |
             git config --local user.email "action@github.com"
             git config --local user.name "GitHub Action"
         
-        - name: Bump version
-          run: npm version ${{ github.event.inputs.Version }}
+        # - name: Bump version
+        #   run: npm version ${{ github.event.inputs.version }}
       
         - name: Create a pre-release
           uses: actions/github-script@v6
@@ -39,20 +50,20 @@ jobs:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           with:
             script: |
-              # Generate release notes
+              // Generate release notes
               const notes = await github.rest.repos.generateReleaseNotes({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                tag_name: ${{ github.event.inputs.Version }},
-                target_commitish: main,
-                previous_tag_name: ${{ steps.get-version.outputs.LAST_VERSION },
+                tag_name: ${{ github.event.inputs.version }},
+                target_commitish: 'main',
+                previous_tag_name: ${{ steps.get-latest-version.outputs.last_version }},
                 configuration_file_path: '.github/custom_release_config.yml'
               })
-
+              
               github.rest.repos.createRelease({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                tag_name: ${{ github.event.inputs.Version }},
+                tag_name: ${{ github.event.inputs.version }},
                 body: notes.body,
                 draft: true
               })
