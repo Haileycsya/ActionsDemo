@@ -54,5 +54,5 @@ jobs:
         with:
           script: |
             // Generate release notes
-            console.log(${{ github.event.inputs.version }});
-            console.log(${{ steps.get-latest-version.outputs.last_version }});
+            console.log(github.event.inputs.version);
+            console.log(steps.get-latest-version.outputs.last_version);
