@@ -18,14 +18,17 @@ jobs:
             LAST_VERSION=$(git tag --sort=taggerdate | tail -1)
             LAST_MAJOR_VERSION="${LAST_VERSION#v}"
             LAST_MAJOR_VERSION="${LAST_MAJOR_VERSION%%.*}"
-            echo "::set-output name=LAST_VERSION::LAST_VERSION"
-            echo "::set-output name=LAST_MAJOR_VERSION::LAST_MAJOR_VERSION"
+            echo "LAST_VERSION=$LAST_VERSION" >> $GITHUB_OUTPUT
+            echo "LAST_MAJOR_VERSION=$LAST_MAJOR_VERSION" >> $GITHUB_OUTPUT
             NEW_VERSION=${{ github.event.inputs.Version }}
             NEW_MAJOR_VERSION="${NEW_VERSION#v}"
             NEW_MAJOR_VERSION="${NEW_MAJOR_VERSION%%.*}"
-            echo "::set-output name=NEW_MAJOR_VERSION::NEW_MAJOR_VERSION"
+            echo "NEW_MAJOR_VERSION=$NEW_MAJOR_VERSION" >> $GITHUB_OUTPUT
+            
+            echo "NEW_MAJOR_VERSION=$NEW_MAJOR_VERSION"
+            echo "LAST_VERSION=$LAST_VERSION"
         
-        - name: Cpnfig the author
+        - name: Config the author
           run: |
             git config --local user.email "action@github.com"
             git config --local user.name "GitHub Action"
