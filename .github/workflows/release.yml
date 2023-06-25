@@ -24,7 +24,6 @@ jobs:
               repo: context.repo.repo
             });
             core.setOutput('last_version', release.data.name);
-            console.log(release.data.name)
 
         # - name: Get Version
         #   id: get-version
@@ -39,13 +38,15 @@ jobs:
         #     NEW_MAJOR_VERSION="${NEW_MAJOR_VERSION%%.*}"
         #     echo "NEW_MAJOR_VERSION=$NEW_MAJOR_VERSION" >> $GITHUB_OUTPUT
         
-      - name: Config the author
+      - name: Configure Git
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-        
-        # - name: Bump version
-        #   run: npm version ${{ github.event.inputs.version }}
+
+      - name: Bump version
+        run: |
+          npm version ${{ github.event.inputs.version }}
+          git push
       
       - name: Create a pre-release
         uses: actions/github-script@v6
@@ -62,4 +63,11 @@ jobs:
               previous_tag_name: `${{ steps.get-latest-version.outputs.last_version }}`,
               configuration_file_path: '.github/custom_release_config.yml'
             })
-            console.log(notes)
+            
+            github.rest.repos.createRelease({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              tag_name: ${{ github.event.inputs.version }},
+              body: notes.body,
+              draft: true
+            })
