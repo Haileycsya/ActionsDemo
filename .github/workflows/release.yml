@@ -39,7 +39,7 @@ jobs:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           with:
             script: |
-              # Generate release notes
+              // Generate release notes
               const notes = await github.rest.repos.generateReleaseNotes({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
@@ -49,3 +49,10 @@ jobs:
                 configuration_file_path: '.github/custom_release_config.yml'
               })
               
+              github.rest.repos.createRelease({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                tag_name: ${{ github.event.inputs.Version }},
+                body: notes.body,
+                draft: true
+              })
