@@ -44,6 +44,7 @@ jobs:
           git config --local user.name "GitHub Action"
 
       - name: Bump version
+        continue-on-error: true
         run: |
           npm version ${{ github.event.inputs.version }}
           git push
