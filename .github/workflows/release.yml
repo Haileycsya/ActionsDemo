@@ -44,7 +44,7 @@ jobs:
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 tag_name: ${{ github.event.inputs.Version }},
-                target_commitish: main,
+                target_commitish: 'main',
                 previous_tag_name: ${{ steps.get-version.outputs.LAST_VERSION }},
                 configuration_file_path: '.github/custom_release_config.yml'
               })
