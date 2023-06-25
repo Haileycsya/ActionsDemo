@@ -54,5 +54,12 @@ jobs:
         with:
           script: |
             // Generate release notes
-            console.log(`${{ github.event.inputs.version }}`);
-            console.log(`${{ steps.get-latest-version.outputs.last_version }}`);
+            const notes = await github.rest.repos.generateReleaseNotes({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              tag_name: `${{ github.event.inputs.version }}`,
+              target_commitish: 'main',
+              previous_tag_name: `${{ steps.get-latest-version.outputs.last_version }}`,
+              configuration_file_path: '.github/custom_release_config.yml'
+            })
+            console.log(notes)
