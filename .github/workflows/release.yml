@@ -86,7 +86,7 @@ jobs:
         if: steps.get-type.outputs.type == 'minor'
         run: |
           major_tag="v${{ steps.get-type.outputs.new_major_version }}"
-          git checkout origin releases/$major_tag
+          git checkout origin/releases/$major_tag
           git tag -fa $major_tag -m "Update major release tag"
           git push origin $major_tag --force
 
