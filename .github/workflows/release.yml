@@ -9,11 +9,12 @@ on:
 
 jobs: 
   pre-release: 
+    name: Draft a release
     runs-on: ubuntu-latest 
     steps: 
       - uses: actions/checkout@v3
         with:
-          ref: main
+          ref: master
 
       - name: Configure Git
         run: |
@@ -24,13 +25,13 @@ jobs:
         continue-on-error: true
         run: |
           npm version ${{ github.event.inputs.version }}
-          git push origin main
+          git push origin master
       
       - name: Get last version
         uses: actions/github-script@v6
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        id: get-latest-version
+        id: get-last-version
         with:
           script: |
             const release = await github.rest.repos.getLatestRelease({
@@ -43,7 +44,7 @@ jobs:
       - name: Major or minor release
         id: get-type
         run: |
-          last_version=${{ steps.get-latest-version.outputs.last_version }}
+          last_version=${{ steps.get-last-version.outputs.last_version }}
           last_version="${last_version#v}"
           last_major_version="${last_version%%.*}"
           new_version=${{ github.event.inputs.version }}
@@ -62,9 +63,9 @@ jobs:
       - name: Create a new branch for major release
         if: steps.get-type.outputs.type == 'major'
         run: |
-          new_major_version=${{ steps.get-type.outputs.new_major_version }}
-          git checkout -b releases/v$new_major_version main
-          git push origin releases/v$new_major_version
+          new_major_version="v${{ steps.get-type.outputs.new_major_version }}"
+          git checkout -b releases/$new_major_version master
+          git push origin releases/$new_major_version
       
       - name: Merge from master branch for minor release
         if: steps.get-type.outputs.type == 'minor'
@@ -73,15 +74,23 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           script: |
-            const major_version = ${{ steps.get-type.outputs.new_major_version }}
+            const major_version = "v${{ steps.get-type.outputs.new_major_version }}"
             github.rest.repos.merge({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              base: `releases/v${major_version}`,
-              head: 'main'
+              base: `releases/${major_version}`,
+              head: 'master'
             })
 
-      - name: Create a draft release
+      - name: Update major release tag for minor release
+        if: steps.get-type.outputs.type == 'minor'
+        run: |
+          major_tag="v${{ steps.get-type.outputs.new_major_version }}"
+          git checkout releases/$major_tag
+          git tag -fa $major_tag -m "Update major release tag"
+          git push origin $major_tag --force
+
+      - name: Create a new draft release
         uses: actions/github-script@v6
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -92,7 +101,7 @@ jobs:
               repo: context.repo.repo,
               tag_name: `${{ github.event.inputs.version }}`,
               target_commitish: `releases/v${{ steps.get-type.outputs.new_major_version }}`,
-              previous_tag_name: `${{ steps.get-latest-version.outputs.last_version }}`,
+              previous_tag_name: `${{ steps.get-last-version.outputs.last_version }}`,
               configuration_file_path: '.github/custom_release_config.yml'
             })
 
@@ -100,6 +109,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               tag_name: `${{ github.event.inputs.version }}`,
+              target_commitish: `releases/v${{ steps.get-type.outputs.new_major_version }}`,
               name: notes.data.name,
               body: notes.data.body,
               draft: true
