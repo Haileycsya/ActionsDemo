@@ -14,7 +14,7 @@ jobs:
     steps: 
       - uses: actions/checkout@v3
         with:
-          ref: master
+          ref: main
 
       - name: Configure Git
         run: |
@@ -25,7 +25,7 @@ jobs:
         continue-on-error: true
         run: |
           npm version ${{ github.event.inputs.version }}
-          git push origin master
+          git push origin main
       
       - name: Get last version
         uses: actions/github-script@v6
@@ -64,10 +64,10 @@ jobs:
         if: steps.get-type.outputs.type == 'major'
         run: |
           new_major_version="v${{ steps.get-type.outputs.new_major_version }}"
-          git checkout -b releases/$new_major_version master
+          git checkout -b releases/$new_major_version main
           git push origin releases/$new_major_version
       
-      - name: Merge from master branch for minor release
+      - name: Merge from main branch for minor release
         if: steps.get-type.outputs.type == 'minor'
         uses: actions/github-script@v6
         env:
@@ -79,7 +79,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               base: `releases/${major_version}`,
-              head: 'master'
+              head: 'main'
             })
 
       - name: Update major release tag for minor release
