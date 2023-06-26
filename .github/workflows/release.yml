@@ -66,7 +66,7 @@ jobs:
           new_major_version="v${{ steps.get-type.outputs.new_major_version }}"
           git checkout -b releases/$new_major_version main
           git push origin releases/$new_major_version
-      
+
       - name: Merge from main branch for minor release
         if: steps.get-type.outputs.type == 'minor'
         uses: actions/github-script@v6
@@ -86,7 +86,7 @@ jobs:
         if: steps.get-type.outputs.type == 'minor'
         run: |
           major_tag="v${{ steps.get-type.outputs.new_major_version }}"
-          git checkout releases/$major_tag
+          git checkout origin releases/$major_tag
           git tag -fa $major_tag -m "Update major release tag"
           git push origin $major_tag --force
 
