@@ -87,13 +87,11 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           script: |
-            const new_version = ${{ github.event.inputs.version }}
-            const major_version = ${{ steps.get-type.outputs.new_major_version }}
             const notes = await github.rest.repos.generateReleaseNotes({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              tag_name: new_version,
-              target_commitish: `releases/v${major_version}`,
+              tag_name: `${{ github.event.inputs.version }}`,
+              target_commitish: `releases/v${{ steps.get-type.outputs.new_major_version }}`,
               previous_tag_name: `${{ steps.get-latest-version.outputs.last_version }}`,
               configuration_file_path: '.github/custom_release_config.yml'
             })
@@ -101,7 +99,7 @@ jobs:
             github.rest.repos.createRelease({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              tag_name: new_version,
+              tag_name: `${{ github.event.inputs.version }}`,
               name: notes.data.name,
               body: notes.data.body,
               draft: true
