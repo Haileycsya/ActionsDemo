@@ -5,7 +5,6 @@ inputs:
   who: 
     description: 'Who to greet'
     required: true
-    default: 'World'
 
 outputs:
   time: # id of output
