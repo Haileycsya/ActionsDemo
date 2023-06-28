@@ -2,9 +2,9 @@ name: "MoChilia's Action Demo"
 description: 'Greet someone and record the time'
 
 inputs:
-  who: 
+  who-to-greet: 
     description: 'Who to greet'
-    required: false
+    required: true
     default: 'World'
 
 outputs:
