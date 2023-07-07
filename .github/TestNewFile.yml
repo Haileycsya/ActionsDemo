@@ -1,0 +1,10 @@
+name: Test new file
+on: [pull_request_target]
+
+jobs:
+  hello_world_job1:
+    runs-on: ubuntu-latest
+    name: A job to test
+    steps:
+      - name: output test prompt
+        run: echo "I am testing"
