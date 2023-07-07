@@ -1,4 +1,4 @@
-on: [push]
+on: [push, pull_request_target]
 name: Azure System-assigned Managed Identity sample
 jobs:
   build-and-deploy:

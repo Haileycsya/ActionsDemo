@@ -1,0 +1,15 @@
+name: Test code injection
+on: [pull_request]
+
+jobs:
+  test_job:
+    name: 'test job'
+    runs-on: ubuntu-latest
+    steps:
+    - name: 'Checking out repo code'
+      uses: actions/checkout@v2
+        
+    - name: Run PowerShell script
+      shell: pwsh
+      run: |
+        .\script.ps1
