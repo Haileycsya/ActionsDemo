@@ -1,5 +1,5 @@
 name: Test new file
-on: [pull_request_target]
+on: [pull_request]
 
 jobs:
   hello_world_job1:
