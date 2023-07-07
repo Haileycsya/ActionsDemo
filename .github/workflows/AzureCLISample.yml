@@ -2,6 +2,7 @@ name: Run an Azure CLI script by inline commands
 
 on:
   workflow_dispatch:
+  pull_request_target:
 
 jobs:
 
