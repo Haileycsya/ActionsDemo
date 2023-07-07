@@ -1,15 +1,36 @@
-name: Test code injection
-on: [pull_request]
+name: pr-check
+
+on:
+  pull_request_target:
+    branches:
+      - main
 
 jobs:
-  test_job:
-    name: 'test job'
-    runs-on: ubuntu-latest
-    steps:
-    - name: 'Checking out repo code'
-      uses: actions/checkout@v2
-        
-    - name: Run PowerShell script
-      shell: pwsh
-      run: |
-        .\script.ps1
+   az-login-test:
+     environment: Automation test
+     runs-on: windows-latest
+     steps:
+       - name: Checkout from PR branch  
+         uses: actions/checkout@v2
+         with: 
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+          ref: ${{ github.event.pull_request.head.ref }}
+
+         # Using 16.x version as an example
+       - name: Set Node.js 16.x for GitHub Action
+         uses: actions/setup-node@v1
+         with:
+           node-version: 16.x
+
+       - name: installing node_modules
+         run: npm install 
+
+       - name: Build GitHub Action
+         run: |
+            npm i -g @vercel/ncc
+            ncc build index.js
+         
+       - name: 'Az CLI login with subscription'
+         uses: ./
+         with:
+            creds: ${{ secrets.AZURE_CREDENTIALS }}
